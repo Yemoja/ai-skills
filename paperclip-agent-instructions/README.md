@@ -16,7 +16,9 @@ The proposed workflow is:
 
 All stages normally belong to one delivery task. Only Coordinator creates the PR. You keep the merge decision.
 
-**v2 correction:** An earlier version only said "confirm base and commit" for review, without specifying which refs to use or how to compare them. This version adds a concrete branch/ref/revision contract to all three agents. It does not assume `main` is the target branch.
+**v4 addition:** **Incremental reviews.** Re-requested reviews of the same task/PR use the previous Paperclip decision and stamped base/head SHAs as the baseline. Check earlier findings, the new patch delta and fix regressions; no fresh line-by-line audit of unchanged code. Rebases use Git's `range-diff` where possible. See [V4_INCREMENTAL_REVIEW.md](V4_INCREMENTAL_REVIEW.md) for examples and rebase handling.
+
+**v3 cross-check retained:** Exact base-ref/SHA review, Agent Chat handoff, approved-plan task creation, attribution privacy, native-versus-delegated review, and post-PR CI. See [V3_AUDIT_FINDINGS.md](V3_AUDIT_FINDINGS.md).
 
 ## Install in Paperclip
 
@@ -57,13 +59,17 @@ Paperclip documents timer-off/event-driven operation as the normal starting poin
 
 The review cap counts consecutive agent change requests: with `2`, the second such decision escalates instead of returning automatically to the developer. It is not two guaranteed completed fix cycles. Configure `responsibleUserId` or a suitable human creator; otherwise the documented escalation cannot hand the review to you. Native review and approval stages can operate on the same task. [S3]
 
-Accept the plan through the supported confirmation flow. Changing work mode alone is not plan acceptance. Do not allow an agent to approve its own proposed scope. [S4]
+Accept the current plan revision through a supported, human-resolvable confirmation. Changing work mode alone is not plan acceptance. Do not allow an agent to approve its own proposed scope. **Important:** Agent Chat handoff creates an ordinary development task from the accepted plan; accepting a Plan-mode task can create child tasks automatically, so inspect that path before using it for a small one-task request. [S4, S10, S11]
 
 ## What instructions cannot enforce by themselves
 
 These files guide behaviour; they are not a security boundary or a universal subtask-limit setting. Use actual permissions and runtime controls for hard limits. Verify that controls cover the real route used, including shell commands and not just a connector. Do not weaken your organisation's controls to reduce prompts. [S5]
 
 Some task runs require a persisted comment. Some verified chat flows have the runtime persist the response and manage lifecycle actions. The heartbeat files preserve the installed platform's rules while avoiding a second duplicate report. They do not promise an empty task history. [S3, S6]
+
+**Visibility warning:** Paperclip Agent Chat conversations are visible to other members of the same Paperclip company. If you use a shared company, the messages themselves are not personal. Use a separate personal company or instance if appropriate and permitted. [S10]
+
+**Privacy warning — decide before first agent-authored commit:** The currently published Paperclip coordination skill requires `Co-Authored-By: Paperclip <noreply@paperclip.ing>` on Git commits made by agents. This makes Paperclip use visible in commit history. The instructions explicitly require disclosing that conflict and following mandatory attribution; they cannot guarantee the workflow remains undisclosed. Review the installed host skill and company rules first. [S6]
 
 If a completed task keeps waking, inspect the wake reason and installed version. Do not keep adding prose to `SOUL.md` to treat a runtime loop.
 
@@ -73,7 +79,7 @@ Each agent must read the assigned application's root `README.md` and applicable 
 
 The files do not assume Next.js, Tailwind, a package manager, a test runner, or a branch name. Agents must discover those from the application. Missing repo guidance does not authorise writing new instruction files into your work repo.
 
-## Git comparison and review handoff (v2)
+## Git comparison and review handoff (v2 retained in v3)
 
 The Coordinator confirms the intended PR target (`baseRef`) once from the application/task settings. The Senior UI Developer works in the issue's real execution workspace and passes the reviewer the repository, workspace path, branch, base ref, **exact commit SHA**, working-tree status, and test results. The Code Reviewer compares the *whole change* with the merge-base/three-dot diff (`git diff BASE...HEAD_SHA`), not just the latest commit, and checks uncommitted changes separately. The reviewer records which SHA was approved. The Coordinator must confirm the final PR targets that base and contains that exact SHA, or re-submit for review.
 
@@ -95,7 +101,9 @@ Treat these as acceptance tests for the setup. The word targets are soft limits,
 
 ## Other files
 
-- [Reviewer ref correction](REVIEW_REF_UPDATE.md): what's changed and why review needs the right base and SHA.
+- [v4 incremental review safeguard](V4_INCREMENTAL_REVIEW.md): how repeat reviews reuse prior SHA stamps and findings without reopening unchanged work.
+- [v3 cross-check and important differences](V3_AUDIT_FINDINGS.md): earlier audit still applies.
+- [Reviewer ref correction](REVIEW_REF_UPDATE.md): v2's branch and SHA selection fix, preserved in v3.
 - [Host review prompt](HOST_REVIEW_PROMPT.md): a read-only audit brief for the Claude session on your host.
 - [Portable clarity rules](portable/PLAIN_LANGUAGE.md): independent of Paperclip.
 - [Claude output style](portable/claude-output-style-plain-language.md): optional reusable writing style.
@@ -119,3 +127,11 @@ Treat these as acceptance tests for the setup. The word targets are soft limits,
 [S8] [Paperclip workspace-diff plugin: working-tree and against-ref modes](https://docs.paperclip.ing/reference/plugins/workspace-diff/)
 
 [S9] [GitHub: three-dot comparison of PRs](https://docs.github.com/en/pull-requests/reference/branches)
+
+[S10] [Paperclip Agent Chat](https://docs.paperclip.ing/experimental/agent-chat/)
+
+[S11] [Paperclip plan decomposition](https://docs.paperclip.ing/experimental/plan-decomposition-panel/)
+
+[S12] [Paperclip Coder template](https://github.com/paperclipai/paperclip/blob/master/skills/paperclip-create-agent/references/agents/coder.md)
+
+[S13] [Paperclip GitHub PR workflow skill](https://docs.paperclip.ing/reference/skills/bundled/software-development/github-pr-workflow/)

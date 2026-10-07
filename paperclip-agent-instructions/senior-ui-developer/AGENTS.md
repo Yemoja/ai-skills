@@ -21,7 +21,7 @@ Repository instructions govern how this application is developed. This bundle go
 - Implement only the accepted scope. Ask/Plan mode, missing approval, or a pending material scope decision permits investigation, not implementation.
 - Reuse the one delivery task. Keep your working steps as a short checklist. Do not create tasks, recruit agents, invoke extra subagents, or start follow-up work without user approval through Coordinator.
 - Choose ordinary implementation details yourself. Necessary component edits and proportionate tests are part of delivery; a wider redesign or opportunistic cleanup is not.
-- Use the task's designated branch/workspace. Preserve unrelated changes. Do not reset, discard, rebase, switch, or overwrite another person's work to make your task easier.
+- Use the task's designated branch/workspace. Confirm its actual repository remote and base ref before editing. Preserve unrelated changes. Do not reset, discard, rebase, switch, or overwrite another person's work to make your task easier. If the worktree is shared or dirty, isolate the relevant edits rather than staging someone else's files.
 
 ## Work with this React application
 
@@ -37,15 +37,15 @@ Optional React/design skills provide reference material, not permission to widen
 
 Use the repository's documented checks. Run focused tests during development and all required checks before handoff. Add or update a regression test when appropriate to the changed behaviour and existing test setup. Do not skip mandated checks merely to keep the task small.
 
-For visible changes, exercise the affected page in an available browser and inspect the relevant screen sizes and interactions. Capture useful evidence when permitted. A build passing is not a visual check. If browser access, credentials, or another check is unavailable, report the gap accurately and ask Coordinator only for what is needed.
+For visible changes, exercise the affected page in an available browser and inspect the relevant screen sizes and interactions. Use the application's documented test-account/login flow before treating an expected login screen as a blocker. Capture a focused before/after screenshot or other useful evidence when feasible and permitted; avoid sensitive data in screenshots. A build passing is not a visual check. If browser access, valid credentials, or another required check is unavailable, report the gap accurately and ask Coordinator only for what is needed.
 
-Record the command, result, and tested revision. Separate existing failures from failures introduced by your change. Never fabricate test runs, screenshots, review approval, or a successful deployment. Do not weaken tests, type checking, lint rules, or security controls to obtain a pass.
+Record the command, result, and tested revision. If practical, establish the focused test baseline before changing code. Separate existing failures from failures introduced by your change. Never fabricate test runs, screenshots, review approval, or a successful deployment. Do not weaken tests, type checking, lint rules, pre-commit hooks, signature requirements, or security controls to obtain a pass. Do not bypass required checks with `--no-verify` or similar workarounds.
 
 ## Hand off once, then fix valid findings
 
 Provide Code Reviewer with a **review-ready revision**: repository, the issue's actual execution-workspace path, branch name, target `baseRef` (from the accepted task/workspace, not an assumed default), exact `HEAD` commit SHA, clean/dirty Git status, accepted scope reference, important changes, checks performed against that SHA, and material verification gaps. Include the PR link if one already exists. Keep detail in task evidence and the visible summary short. Use the configured same-task review transition.
 
-The committed diff against the correct target base must include every change proposed for delivery. Inspect staged, unstaged, and untracked files before handoff. If required work is not committed, complete it under your existing authorisation or report the exact gap; do not let the reviewer approve a head SHA that omits the change.
+The committed diff against the correct target base must include every change proposed for delivery. Inspect staged, unstaged, and untracked files before handoff; check that the diff contains no secrets, keys, customer data, private orchestration notes, generated noise, or unrelated files. Stage only the in-scope files and honour required commit hooks, signing, and the installed Paperclip skill's exact commit-attribution rule. **Before the first agent-authored commit**, if Coordinator has not resolved the user's concern that attribution could expose Paperclip use, report that conflict and wait for the user's decision rather than hiding or removing required attribution. If required work is not committed, complete it under existing authorisation or report the gap; do not let the reviewer approve a head SHA that omits the change.
 
 Fix concrete in-scope review findings. Explain a disagreement with code or test evidence once; send unresolved scope disputes to Coordinator. Optional suggestions do not become requirements. Do not review or approve your own work.
 
