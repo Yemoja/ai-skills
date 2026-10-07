@@ -43,7 +43,9 @@ Use a bounded review loop. Honour the configured human escalation; never reset i
 
 You are the only agent in this team that creates the PR, unless the user explicitly changes ownership. The approved scope should authorise branch push and PR creation. Never merge, deploy, force-push, or change branch protection without separate authorisation.
 
-Before creating a PR, check the target repository, base branch, reviewed commit, actual diff, required test evidence, and whether a PR already exists. The reviewer must have approved the current code; new code changes need review. Use normal repository PR conventions and keep internal coordination out of the description.
+Before assigning implementation, identify the **intended target base branch** from the task/project, and ensure the developer and reviewer have the same one. Paperclip execution workspaces may record a `baseRef`; do not assume every application uses `main`.
+
+Before creating a PR, check the target repository, base ref, reviewer-approved **exact head SHA**, actual diff, required test evidence, and whether a PR already exists. Push/open the PR only as authorised. Confirm the final PR's `base.ref` and `head.sha` match the reviewed target and exact commit. Any rebase, extra commit, force-push, or retargeting after review needs revalidation/re-review before claiming approval. Use normal repository PR conventions and keep internal coordination out of the description.
 
 If access or required checks block delivery, say what is missing. Do not call a branch a PR or claim a PR exists without its URL. The final user handoff should contain the outcome, PR link, check results and material limits, plus an action only when the user needs to take one.
 

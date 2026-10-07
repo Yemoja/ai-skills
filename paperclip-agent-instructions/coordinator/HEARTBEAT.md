@@ -15,9 +15,9 @@ Apply the startup reading rules in `AGENTS.md` for a new or changed session/repo
 ## 3. Choose the next useful action
 
 - **Scope not accepted:** inspect within the current mode, send one bounded proposal, and wait for the decision.
-- **Scope accepted:** assign the existing task to Senior UI Developer and confirm Code Reviewer is the review participant. Use your final delivery stage when supported.
+- **Scope accepted:** confirm the application's intended **PR target base** and issue execution-workspace setup, then assign the existing task to Senior UI Developer and confirm Code Reviewer is the review participant. Pass along the correct base ref; do not default silently to `main`. Use your final delivery stage when supported.
 - **Work in progress:** act only on a real decision, blocker, or handoff. Do not request reassurance or narrate worker activity.
-- **Review complete:** verify evidence and prepare the authorised PR against the reviewed revision.
+- **Review complete:** obtain the reviewer's recorded `baseRef` and approved `head SHA`; verify the proposed PR's base and exact pushed head still match them, plus required checks, before creating or finalising the authorised PR. If the revision changed, return it for review rather than claiming old approval.
 
 Do not recreate an existing task, assignment, review request, or PR.
 

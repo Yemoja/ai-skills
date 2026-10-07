@@ -43,7 +43,9 @@ Record the command, result, and tested revision. Separate existing failures from
 
 ## Hand off once, then fix valid findings
 
-Provide Code Reviewer with the branch/commit, accepted scope reference, important changes, checks performed, and material verification gaps. Keep detail in task evidence and the visible summary short. Use the configured same-task review transition.
+Provide Code Reviewer with a **review-ready revision**: repository, the issue's actual execution-workspace path, branch name, target `baseRef` (from the accepted task/workspace, not an assumed default), exact `HEAD` commit SHA, clean/dirty Git status, accepted scope reference, important changes, checks performed against that SHA, and material verification gaps. Include the PR link if one already exists. Keep detail in task evidence and the visible summary short. Use the configured same-task review transition.
+
+The committed diff against the correct target base must include every change proposed for delivery. Inspect staged, unstaged, and untracked files before handoff. If required work is not committed, complete it under your existing authorisation or report the exact gap; do not let the reviewer approve a head SHA that omits the change.
 
 Fix concrete in-scope review findings. Explain a disagreement with code or test evidence once; send unresolved scope disputes to Coordinator. Optional suggestions do not become requirements. Do not review or approve your own work.
 

@@ -10,7 +10,7 @@ Use the supplied task/wake context. Take only work assigned or explicitly delega
 
 ## 2. Read before changing code
 
-Apply the startup rules in `AGENTS.md`. Confirm the repository, branch, working-tree state, accepted scope, mode, and latest feedback. Reuse unchanged context; read updates instead of repeating the full investigation.
+Apply the startup rules in `AGENTS.md`. Confirm the repository, actual issue execution workspace (which may be a Git worktree), branch, task/workspace target `baseRef`, working-tree state, accepted scope, mode, and latest feedback. If the base is missing or conflicts with the approved PR target, ask Coordinator; do not assume `main`. Reuse unchanged context; read updates instead of repeating the full investigation.
 
 If scope is not accepted, investigate only as allowed and send the missing decision to Coordinator once. Do not start implementation because a timer fired or a worker believes the request is obvious.
 
@@ -24,7 +24,7 @@ Run the relevant checks and inspect visible UI behaviour using available tools. 
 
 ## 5. Hand over or report one blocker
 
-When ready, use the configured review transition on the same task. Supply the branch/commit, scope reference, checks, and material gaps. If review is not configured, tell Coordinator rather than claiming independently reviewed completion.
+When ready, verify the proposed changes are committed and use the configured review transition on the same task. Include the **repo, workspace path, branch, accepted base ref, exact head SHA, working-tree status, scope reference, checks, and material gaps**. State any remaining uncommitted files explicitly; these are not part of the committed diff. If review is not configured, tell Coordinator rather than claiming independently reviewed completion.
 
 When blocked, state what stopped you, what you already tried, and the smallest decision or access change needed. Do not ask the user to do work that your available tools can safely perform.
 

@@ -9,7 +9,7 @@ The three agents are Coordinator, Senior UI Developer, and Code Reviewer. The in
 1. Identify the installed Paperclip and coding-runtime versions, the agents' actual instruction bundles, entry files, application working directories, active global instructions, and loaded skills. Do not expose credentials.
 2. Compare the existing `AGENTS.md`, `HEARTBEAT.md`, and `SOUL.md` against the matching supplied files. Preserve necessary host-specific tool details. Find conflicting CEO/roadmap instructions, auto-delegation rules, verbose update policies, and repeated imported text.
 3. Verify repo-startup reading, task ownership, native review/approval routing, responsible-human settings, round counting, timer/demand wakeups, and whether the harness already persists comments.
-4. Check actual shell/connector permissions and PR ownership. Confirm that the same reviewed revision reaches the PR and that no automatic attribution or private orchestration material surprises the user. Honour mandatory workplace policies.
+4. Check actual shell/connector permissions and PR ownership. Verify the real issue execution workspace, its Git branch, recorded `baseRef`, parent project workspace `repoRef`/`defaultRef`, and whether the reviewer sees the developer's exact commit. Confirm the reviewer checks a merge-base/three-dot diff plus uncommitted changes, and that the final PR's base and head SHA match the review approval. Confirm no automatic attribution or private orchestration material surprises the user. Honour mandatory workplace policies.
 5. If examples are available, inspect one chatty run and one scope-creep task. Separate prompt problems from duplicate wakeups or configuration errors. Do not infer causes merely from agent names.
 
 ## Return

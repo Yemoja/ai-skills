@@ -16,6 +16,8 @@ The proposed workflow is:
 
 All stages normally belong to one delivery task. Only Coordinator creates the PR. You keep the merge decision.
 
+**v2 correction:** An earlier version only said "confirm base and commit" for review, without specifying which refs to use or how to compare them. This version adds a concrete branch/ref/revision contract to all three agents. It does not assume `main` is the target branch.
+
 ## Install in Paperclip
 
 1. **Back up the current instructions and settings.** Save the existing agent files in a private location. Keep necessary host-specific tool notes. Review changes before replacing anything.
@@ -71,6 +73,12 @@ Each agent must read the assigned application's root `README.md` and applicable 
 
 The files do not assume Next.js, Tailwind, a package manager, a test runner, or a branch name. Agents must discover those from the application. Missing repo guidance does not authorise writing new instruction files into your work repo.
 
+## Git comparison and review handoff (v2)
+
+The Coordinator confirms the intended PR target (`baseRef`) once from the application/task settings. The Senior UI Developer works in the issue's real execution workspace and passes the reviewer the repository, workspace path, branch, base ref, **exact commit SHA**, working-tree status, and test results. The Code Reviewer compares the *whole change* with the merge-base/three-dot diff (`git diff BASE...HEAD_SHA`), not just the latest commit, and checks uncommitted changes separately. The reviewer records which SHA was approved. The Coordinator must confirm the final PR targets that base and contains that exact SHA, or re-submit for review.
+
+Why this matters: Paperclip can provision different worktrees with a recorded base ref, while GitHub PRs may target `main`, `develop`, release branches, or stacked branches. The wrong base can produce a misleading review; an approval of an earlier SHA does not approve later code. Paperclip's optional workspace-diff viewer distinguishes uncommitted working-tree changes from changes against the base ref. [S7, S8, S9]
+
 ## Check the first five small tasks
 
 Suggested trials: a responsive alignment fix; a keyboard interaction bug; a small React state fix; a UI change with unavailable browser access; and a small fix near an unrelated outdated dependency.
@@ -87,10 +95,10 @@ Treat these as acceptance tests for the setup. The word targets are soft limits,
 
 ## Other files
 
-- [Research and choices](RESEARCH_AND_CHOICES.md): current options, popularity signals, evidence, and trade-offs.
-- [Use with Codex and Claude](USING_WITH_CODEX_AND_CLAUDE.md): personal instructions and an optional Claude output style.
+- [Reviewer ref correction](REVIEW_REF_UPDATE.md): what's changed and why review needs the right base and SHA.
 - [Host review prompt](HOST_REVIEW_PROMPT.md): a read-only audit brief for the Claude session on your host.
 - [Portable clarity rules](portable/PLAIN_LANGUAGE.md): independent of Paperclip.
+- [Claude output style](portable/claude-output-style-plain-language.md): optional reusable writing style.
 
 ## Sources
 
@@ -105,3 +113,9 @@ Treat these as acceptance tests for the setup. The word targets are soft limits,
 [S5] [Claude Code: instructions versus enforced settings](https://code.claude.com/docs/en/memory)
 
 [S6] [Paperclip coordination skill](https://github.com/paperclipai/paperclip/blob/master/skills/paperclip/SKILL.md)
+
+[S7] [Paperclip execution workspace base ref / worktrees](https://docs.paperclip.ing/guides/projects-workflow/workspaces/)
+
+[S8] [Paperclip workspace-diff plugin: working-tree and against-ref modes](https://docs.paperclip.ing/reference/plugins/workspace-diff/)
+
+[S9] [GitHub: three-dot comparison of PRs](https://docs.github.com/en/pull-requests/reference/branches)
