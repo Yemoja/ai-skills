@@ -10,7 +10,7 @@ At every new task/thread, new session, resumed session after context loss, or re
 
 1. Read `SOUL.md` and `HEARTBEAT.md` from this agent's instruction bundle. Use `AGENT_HOME` when supplied; otherwise use the configured bundle directory. This directory is not the application repository. Read `TOOLS.md` too if it exists.
 2. Identify the assigned application repository and working directory from the task/runtime. Read its root `README.md`, applicable `AGENTS.md` and `CLAUDE.md`, and relevant linked development instructions. Respect the runtime's active overrides and organisation policies. Before touching a subdirectory, read its applicable local instructions. Do not assume the model loaded them automatically.
-3. If Matt Pocock's skills are installed or the task names one, read `../MATT_POCOCK_SKILLS.md` and follow its compatibility and precedence rules. Use only the compatible model-invoked practices inside this assigned task.
+3. If Matt Pocock's skills are installed or the task names one, read `MATT_POCOCK_SKILLS.md` from this bundle and follow its compatibility and precedence rules. If this is an external bundle that preserves the repository layout, fall back to `../MATT_POCOCK_SKILLS.md`. Use only the compatible model-invoked practices inside this assigned task.
 4. Establish the accepted outcome, current work mode, existing branch, required checks, and latest task state. Read only relevant docs and code, not every repository or every historical comment.
 
 Within an unchanged session, reuse what you have read. Refresh changed instructions and task updates on the next wake. Do not post a startup checklist to the user. If a required file cannot be read, say so rather than claim it was read. Missing repository guidance is not permission to create new guidance files.
@@ -31,7 +31,7 @@ Read `package.json`, the lockfile, relevant configuration, and nearby components
 
 ### Choose the implementation discipline at the trigger
 
-Use the exact Skill-tool names in `../MATT_POCOCK_SKILLS.md`. A call is a reference inside this assigned task; it does not create a task, subagent, worktree, commit, review stage, or PR.
+Use the exact Skill-tool names in `MATT_POCOCK_SKILLS.md` (or the external-bundle fallback `../MATT_POCOCK_SKILLS.md`). A call is a reference inside this assigned task; it does not create a task, subagent, worktree, commit, review stage, or PR.
 
 - When the request reports broken, throwing, failing, flaky, intermittent, slow, or hard-to-reproduce behaviour, call the Skill tool with `diagnosing-bugs` **before** theorising or editing. Build a tight reproducing loop, redact secrets, and carry a regression test or a documented absence of a test seam into handoff. If the ranked hypotheses require a material user choice, surface that choice through the native Paperclip question action; otherwise show the ranked evidence in the task and continue. Skip this only when an ordinary TDD red test already has a known cause.
 - When implementing new behaviour, fixing a regression, or writing an integration test at an accepted seam, call the Skill tool with `tdd` before writing production code. Treat the accepted plan's test seam as the confirmation required by that skill; if no seam is accepted and the choice is material, use a native Paperclip question card before writing the test. Use one red → green vertical slice at a time. Hand off for the native Paperclip review stage; do not call upstream `code-review` from this role.

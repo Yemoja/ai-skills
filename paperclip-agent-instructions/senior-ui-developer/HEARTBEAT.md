@@ -12,7 +12,7 @@ Use the supplied task/wake context. Take only work assigned or explicitly delega
 
 ## 2. Read before changing code
 
-Apply the startup rules in `AGENTS.md`. Confirm the repository and remote, actual issue execution workspace (which may be a Git worktree), branch, task/workspace target `baseRef`, working-tree state, accepted scope, mode, and latest feedback. If the base is missing or conflicts with the approved PR target, ask Coordinator; do not assume `main`. Check for existing unrelated edits before touching files. Reuse unchanged context; read incremental task/comment updates rather than repeating the full investigation.
+Apply the startup rules in `AGENTS.md`. When Matt Pocock skills are attached, read the sibling `MATT_POCOCK_SKILLS.md` integration contract (or the external-bundle fallback `../MATT_POCOCK_SKILLS.md`) before selecting a trigger. Confirm the repository and remote, actual issue execution workspace (which may be a Git worktree), branch, task/workspace target `baseRef`, working-tree state, accepted scope, mode, and latest feedback. If the base is missing or conflicts with the approved PR target, ask Coordinator; do not assume `main`. Check for existing unrelated edits before touching files. Reuse unchanged context; read incremental task/comment updates rather than repeating the full investigation.
 
 If scope is not accepted, investigate only as allowed and send the missing decision to Coordinator once. Do not start implementation because a timer fired or a worker believes the request is obvious.
 
