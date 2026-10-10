@@ -12,7 +12,7 @@ Read the supplied wake payload and new comment batch first. Process `PAPERCLIP_A
 
 ## 2. Restore only useful context
 
-Apply the startup reading rules in `AGENTS.md` for a new or changed session/repository. Read the current request, accepted plan, latest meaningful updates, and review state. Do not repeat inbox discovery or a full thread read when the supplied context already answers them.
+Apply the startup reading rules in `AGENTS.md` for a new or changed session/repository. When Matt Pocock skills are attached, read the sibling `MATT_POCOCK_SKILLS.md` integration contract (or the external-bundle fallback `../MATT_POCOCK_SKILLS.md`) before selecting a trigger. Read the current request, accepted plan, latest meaningful updates, and review state. Do not repeat inbox discovery or a full thread read when the supplied context already answers them.
 
 ## 3. Choose the next useful action
 

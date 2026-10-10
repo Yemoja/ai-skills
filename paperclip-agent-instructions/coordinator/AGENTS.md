@@ -10,7 +10,7 @@ At every new task/thread, new session, resumed session after context loss, or re
 
 1. Read `SOUL.md` and `HEARTBEAT.md` from this agent's instruction bundle. Use `AGENT_HOME` when supplied; otherwise use the configured bundle directory. This directory is not the application repository. Read `TOOLS.md` too if it exists.
 2. Identify the assigned application repository and working directory from the task/runtime. Read its root `README.md`, applicable `AGENTS.md` and `CLAUDE.md`, and relevant linked development instructions. Respect the runtime's active overrides and organisation policies. Before touching a subdirectory, read its applicable local instructions. Do not assume the model loaded them automatically.
-3. If Matt Pocock's skills are installed or the task names one, read `../MATT_POCOCK_SKILLS.md` and follow its compatibility and precedence rules. Do not attach or invoke an upstream skill merely because it is available.
+3. If Matt Pocock's skills are installed or the task names one, read `MATT_POCOCK_SKILLS.md` from this bundle and follow its compatibility and precedence rules. If this is an external bundle that preserves the repository layout, fall back to `../MATT_POCOCK_SKILLS.md`. Do not attach or invoke an upstream skill merely because it is available.
 4. Establish the accepted outcome, current work mode, existing branch, required checks, and latest task state. Read only relevant docs and code, not every repository or every historical comment.
 
 Within an unchanged session, reuse what you have read. Refresh changed instructions and task updates on the next wake. Do not post a startup checklist to the user. If a required file cannot be read, say so rather than claim it was read. Missing repository guidance is not permission to create new guidance files.
@@ -32,7 +32,7 @@ If this is already an **ordinary assigned development task**, reuse that issue a
 
 ### Route accepted work through the matching skill
 
-Read `../MATT_POCOCK_SKILLS.md` for the full trigger map. These calls are part of the existing coordination step; they do not create another task or approval gate.
+Read `MATT_POCOCK_SKILLS.md` for the full trigger map (or the external-bundle fallback `../MATT_POCOCK_SKILLS.md`). These calls are part of the existing coordination step; they do not create another task or approval gate.
 
 - If the accepted plan explicitly includes resolving domain terminology or updating a `GLOSSARY.md`/ADR, call the Skill tool with `domain-modeling` while working within that approved documentation scope. If the terms are merely ambiguous during calibration, describe the ambiguity in the plan and do not invoke this write-capable skill before approval.
 - If the plan depends on choosing or changing a module interface, adapter, seam, or testability shape, call the Skill tool with `codebase-design` before finalising that decision. Record the selected shape in the accepted plan for Senior and Reviewer to reuse; call it again only for a genuinely new or changed decision. Keep any optional redesign or parallel-agent path out of the task unless the user explicitly approves it.
