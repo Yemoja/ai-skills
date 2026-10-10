@@ -6,6 +6,8 @@ Prepared 7 October 2026 for **Coordinator**, **Senior UI Developer**, and **Code
 
 This is a researched starting configuration tailored to your reported problems. It has not been tested on your Paperclip host. No agents, host settings, repositories, plugins, or permissions have been changed.
 
+The pack can use [Matt Pocock's upstream skills](https://github.com/mattpocock/skills) without vendoring them. [MATT_POCOCK_SKILLS.md](MATT_POCOCK_SKILLS.md) is the integration contract: it recommends importing the source through Paperclip's Skills Store, maps compatible skills to each role, and prevents upstream flows from bypassing Paperclip's native task and review controls.
+
 ## What this is designed to fix
 
 You reported more than 20 long messages for a simple UI change, and more than 10 unapproved subtasks for another small request. You want one conversation with a Coordinator, then implementation, testing, independent review, and a PR. You also want clear English, useful Markdown, obvious decisions, and personal orchestration kept out of work repositories.
@@ -23,12 +25,14 @@ All stages normally belong to one delivery task. Only Coordinator creates the PR
 ## Install in Paperclip
 
 1. **Back up the current instructions and settings.** Save the existing agent files in a private location. Keep necessary host-specific tool notes. Review changes before replacing anything.
-2. **Open each agent's Instructions page.** Copy the matching folder's `AGENTS.md`, `HEARTBEAT.md`, and `SOUL.md` into files with those exact names. Use `AGENTS.md` as the entry file. Paste raw Markdown, without adding an outer code fence. Do not paste this README into an agent.
-3. **Check a fresh run before real work.** Confirm the correct entry file and application working directory in the invocation details. Verify file-read traces for the supporting files and repository guidance; do not rely solely on the agent saying it read them.
+2. **Open each agent's Instructions page.** Copy the matching folder's `AGENTS.md`, `HEARTBEAT.md`, and `SOUL.md` into files with those exact names. Use `AGENTS.md` as the entry file. Paste raw Markdown, without adding an outer code fence. Do not paste this README into an agent. If using the Matt integration, also copy `MATT_POCOCK_SKILLS.md` into the common parent directory so each role's `../MATT_POCOCK_SKILLS.md` pointer resolves; preserve that relative layout. Do not copy upstream `SKILL.md` files into the bundle.
+3. **Check a fresh run before real work.** Confirm the correct entry file and application working directory in the invocation details. Verify file-read traces for the supporting files, the shared Matt integration file when used, and repository guidance; do not rely solely on the agent saying it read them.
 
 Prefer managed agent storage or a private external directory outside the work repository. Paperclip's entry file is supplied automatically; the supporting files need explicit loading. Each supplied `AGENTS.md` therefore tells the agent to read its `SOUL.md` and `HEARTBEAT.md`. [S1]
 
 Do not erase a useful existing `TOOLS.md`, remove required coordination skills, or append these files below an old contradictory CEO persona. Merge necessary environment details; remove conflicting personal-workflow instructions deliberately.
+
+If you use Matt Pocock's skills, read [MATT_POCOCK_SKILLS.md](MATT_POCOCK_SKILLS.md) before attaching or invoking them. Import the upstream source once through Paperclip's Skills Store, inspect the pinned revision, and attach only the role-compatible skills. Skill import, attachment, plugin installation, and permission changes are operator-approved setup actions; the agent instructions do not authorise an agent to perform them. Do not copy upstream skill files into this repository.
 
 ## Files for each agent
 
@@ -101,6 +105,7 @@ Treat these as acceptance tests for the setup. The word targets are soft limits,
 
 ## Other files
 
+- [Matt Pocock skills integration](MATT_POCOCK_SKILLS.md): managed installation, Paperclip Skills Store setup, role compatibility, and conflict rules.
 - [v4 incremental review safeguard](V4_INCREMENTAL_REVIEW.md): how repeat reviews reuse prior SHA stamps and findings without reopening unchanged work.
 - [v3 cross-check and important differences](V3_AUDIT_FINDINGS.md): earlier audit still applies.
 - [Reviewer ref correction](REVIEW_REF_UPDATE.md): v2's branch and SHA selection fix, preserved in v3.
