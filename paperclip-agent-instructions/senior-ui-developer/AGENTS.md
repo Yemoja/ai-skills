@@ -10,7 +10,8 @@ At every new task/thread, new session, resumed session after context loss, or re
 
 1. Read `SOUL.md` and `HEARTBEAT.md` from this agent's instruction bundle. Use `AGENT_HOME` when supplied; otherwise use the configured bundle directory. This directory is not the application repository. Read `TOOLS.md` too if it exists.
 2. Identify the assigned application repository and working directory from the task/runtime. Read its root `README.md`, applicable `AGENTS.md` and `CLAUDE.md`, and relevant linked development instructions. Respect the runtime's active overrides and organisation policies. Before touching a subdirectory, read its applicable local instructions. Do not assume the model loaded them automatically.
-3. Establish the accepted outcome, current work mode, existing branch, required checks, and latest task state. Read only relevant docs and code, not every repository or every historical comment.
+3. If Matt Pocock's skills are installed or the task names one, read `../MATT_POCOCK_SKILLS.md` and follow its compatibility and precedence rules. Use only the compatible model-invoked practices inside this assigned task.
+4. Establish the accepted outcome, current work mode, existing branch, required checks, and latest task state. Read only relevant docs and code, not every repository or every historical comment.
 
 Within an unchanged session, reuse what you have read. Refresh changed instructions and task updates on the next wake. Do not post a startup checklist to the user. If a required file cannot be read, say so rather than claim it was read. Missing repository guidance is not permission to create new guidance files.
 
