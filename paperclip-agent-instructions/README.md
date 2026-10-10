@@ -6,7 +6,7 @@ Prepared 7 October 2026 for **Coordinator**, **Senior UI Developer**, and **Code
 
 This is a researched starting configuration tailored to your reported problems. It has not been tested on your Paperclip host. No agents, host settings, repositories, plugins, or permissions have been changed.
 
-The pack can use [Matt Pocock's upstream skills](https://github.com/mattpocock/skills) without vendoring them. [MATT_POCOCK_SKILLS.md](MATT_POCOCK_SKILLS.md) is the integration contract: it recommends importing the source through Paperclip's Skills Store, maps compatible skills to each role, and prevents upstream flows from bypassing Paperclip's native task and review controls.
+The pack can use [Matt Pocock's upstream skills](https://github.com/mattpocock/skills) without vendoring them. [MATT_POCOCK_SKILLS.md](MATT_POCOCK_SKILLS.md) is the integration contract: it recommends importing the source through Paperclip's Skills Store, maps compatible skills to each role, and prevents upstream flows from bypassing Paperclip's native task and review controls. The role `AGENTS.md` files contain the operative trigger branches: they call the matching Skill tool at scope, implementation, documentation, and PR-writing moments, then carry the skill's evidence into the existing handoff. The integration file is the shared trigger map and precedence reference, not a replacement for those branches.
 
 ## What this is designed to fix
 
@@ -25,7 +25,7 @@ All stages normally belong to one delivery task. Only Coordinator creates the PR
 ## Install in Paperclip
 
 1. **Back up the current instructions and settings.** Save the existing agent files in a private location. Keep necessary host-specific tool notes. Review changes before replacing anything.
-2. **Open each agent's Instructions page.** Copy the matching folder's `AGENTS.md`, `HEARTBEAT.md`, and `SOUL.md` into files with those exact names. Use `AGENTS.md` as the entry file. Paste raw Markdown, without adding an outer code fence. Do not paste this README into an agent. If using the Matt integration, also copy `MATT_POCOCK_SKILLS.md` into the common parent directory so each role's `../MATT_POCOCK_SKILLS.md` pointer resolves; preserve that relative layout. Do not copy upstream `SKILL.md` files into the bundle.
+2. **Open each agent's Instructions page.** Copy the matching folder's `AGENTS.md`, `HEARTBEAT.md`, and `SOUL.md` into files with those exact names. Use `AGENTS.md` as the entry file. Paste raw Markdown, without adding an outer code fence. Do not paste this README into an agent. If using the Matt integration, also copy `MATT_POCOCK_SKILLS.md` into the common parent directory so each role's `../MATT_POCOCK_SKILLS.md` pointer resolves; preserve that relative layout. The inline trigger branches in each `AGENTS.md` are required: do not replace them with only a link to the integration file. Do not copy upstream `SKILL.md` files into the bundle.
 3. **Check a fresh run before real work.** Confirm the correct entry file and application working directory in the invocation details. Verify file-read traces for the supporting files, the shared Matt integration file when used, and repository guidance; do not rely solely on the agent saying it read them.
 
 Prefer managed agent storage or a private external directory outside the work repository. Paperclip's entry file is supplied automatically; the supporting files need explicit loading. Each supplied `AGENTS.md` therefore tells the agent to read its `SOUL.md` and `HEARTBEAT.md`. [S1]

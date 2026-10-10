@@ -21,6 +21,8 @@ npx paperclipai skills agent sync <agent-id-or-shortname> \
   --company-id <company-id>
 ```
 
+Attach imported skills selectively. The Coordinator needs `pr` and `writing-for-agents`, plus `codebase-design` and `domain-modeling` when those scope branches are enabled. The Senior UI Developer needs `tdd`, `diagnosing-bugs`, `codebase-design`, `domain-modeling`, and `writing-for-agents` when approved agent-doc edits are possible. The Code Reviewer needs `codebase-design` and `writing-for-agents` only as read-only references for the matching diff triggers. Do not attach `code-review`, `research`, `prototype`, `wizard`, or `grilling` to these roles by default, and do not attach every imported skill to every agent.
+
 Use **Skills → Sources → Refresh** when you want to review a newer upstream revision. Select newly discovered packages and save that selection deliberately, inspect changed skill content, and re-sync only the skills that remain compatible. Do not hard-code generated Paperclip skill IDs in this repository; they depend on the imported source revision.
 
 If the Paperclip Skills Store is unavailable, use one managed host install instead. Run it in the actual HOME/configuration used by the Paperclip adapter, not only in an operator's interactive shell:
@@ -36,6 +38,35 @@ If the Paperclip Skills Store is unavailable, use one managed host install inste
 
 Choose one route per Paperclip agent: the Paperclip Skills Store, one managed host plugin, or `skills.sh`. The plugin route is a managed, read-only bundle. The `skills.sh` route copies editable files. Never install or attach the same upstream skills through more than one route.
 
+## Invocation contract
+
+The upstream repository has two kinds of skills. **Model-invoked** skills are available to the agent when their trigger matches the task. **User-invoked** skills are available only when the human explicitly types or selects them; do not try to call them through the Skill tool.
+
+For a model-invoked skill, the role instructions must cause an actual Skill-tool call. Naming `/tdd` in prose is only a label. Use one call with one exact skill name, for example:
+
+```text
+Call the Skill tool with "tdd".
+```
+
+The host may expose an installed plugin with a namespace such as `mattpocock-skills:tdd`; use the exact name shown by the host if the unqualified name collides. Read the selected skill's current `SKILL.md` before applying it when the host does not inject it automatically.
+
+The six skills attached by this pack are the model-invoked `tdd`, `diagnosing-bugs`, `codebase-design`, `domain-modeling`, `pr`, and `writing-for-agents`. The upstream repository also contains model-invoked `prototype`, `wizard`, and `grilling`, but they are not attached by the default allowlist because their side effects need a separate scope decision. If separately installed, the user-invoked flows include `/grill-with-docs`, `/implement`, `/implement-spec`, `/setup-matt-pocock-skills`, `/triage`, `/to-spec`, `/to-tickets`, `/wayfinder`, and `/retro`; surface them to the human only when explicitly needed. Upstream `research` and `code-review` are model-invoked in isolation but remain blocked in this Paperclip integration because they create background or parallel review work; a separately authorised delegated workflow would need its own instructions.
+
+## Trigger map
+
+The role files contain the operative routing. Each row below explains what should cause a real Skill-tool call and what evidence must survive into the existing Paperclip handoff. Use the exact unqualified name shown in the **Skill-tool name** column; if the host reports a namespace collision, use the exact namespaced name it exposes.
+
+| Skill-tool name | Trigger and owning stage | Required evidence | Paperclip guard |
+| --- | --- | --- | --- |
+| `tdd` | Senior: new behaviour, a regression fix, an integration test, or an explicit test-first/red-green request at an accepted test seam | One red → green vertical slice, the seam used, focused test command/result, and tested `HEAD` SHA | Treat the accepted plan's seam as confirmation. Do not call upstream `implement` or `code-review`; native Code Reviewer owns review. |
+| `diagnosing-bugs` | Senior: the task reports broken, throwing, failing, flaky, intermittent, slow, or hard-to-reproduce behaviour | Minimal reproducing loop, observed failure, redaction of secrets, hypothesis/instrumentation, and a regression test or documented absence of a seam | Call before editing or theorising. Skip only when an ordinary TDD red test already has a known cause. |
+| `codebase-design` | Coordinator during a material module/interface decision; Senior before choosing a module interface, seam, adapter, or testability shape; Reviewer only as a read-only reference for a finding | The selected module/interface/seam and why it preserves accepted scope; no unrelated redesign | Do not follow optional parallel-subagent or redesign paths from the upstream skill without explicit approval. |
+| `domain-modeling` | Coordinator only when the accepted scope includes resolving or documenting domain terminology; Senior when the accepted change alters domain terms, `GLOSSARY.md`, or an ADR | Terms resolved and any approved glossary/ADR update; ordinary code work remains in scope | Reading a glossary is not an invocation. Reviewer does not invoke this write-capable skill in a read-only review. |
+| `writing-for-agents` | Coordinator before an approved edit to `AGENTS.md`, `CLAUDE.md`, `SKILL.md`, or other agent-consumed instructions; Reviewer when such a diff must be checked | Trigger placement, precedence, completion criteria, and invocation syntax checked against the surrounding instruction hierarchy | Never use it to rewrite instructions outside the accepted documentation scope. |
+| `pr` | Coordinator immediately before drafting the PR body | Summary, Evidence, and Merge Danger sections checked against the exact reviewed head and CI | It guides wording only; Coordinator still creates/registers the PR and does not merge it. |
+
+If a selected skill is unavailable, follow the role's Paperclip and repository instructions, record that the call could not be made, and never claim that it ran. A call to one of the six attached reference skills does not create a Paperclip task, subagent, worktree, commit, review stage, or PR; any approved file edits still follow the existing task permissions.
+
 ## What each Paperclip role may use
 
 Paperclip's bundled coordination skill, task lifecycle, permissions, workspace rules, review stage, and PR ownership always take precedence. An upstream skill is a focused reference inside the existing assigned task; it does not create a new task, subagent, worktree, commit, review stage, or PR unless the Paperclip workflow explicitly authorises that action.
@@ -44,15 +75,15 @@ For `tdd`, treat the accepted task scope and its approved test seams as the conf
 
 | Role | Use when the task needs it | Do not make automatic |
 | --- | --- | --- |
-| Senior UI Developer | `tdd` for one vertical slice at a time; `diagnosing-bugs` for a hard bug or regression; `codebase-design` as design vocabulary at an approved seam; `domain-modeling` when the repository's terms or boundaries are unclear | `implement`, `implement-spec`, or any upstream flow that creates its own worktree, subagents, commits, or review; repository-wide setup or unrelated architecture work |
-| Coordinator | `pr` as a guide for the final PR body; `writing-for-agents` when deliberately editing an approved instruction document | Upstream task decomposition, automatic issue-tracker changes, or any skill that replaces Paperclip's approval, assignment, review, or PR workflow |
-| Code Reviewer | Keep the native Paperclip review flow and the role's exact base/head SHA checks | Upstream `code-review`, which runs parallel review subagents and has a separate fixed-point flow; edits, commits, or PR creation |
+| Senior UI Developer | `tdd` for one vertical slice at a time; `diagnosing-bugs` for a hard bug or regression; `codebase-design` as design vocabulary at an approved module/interface/seam; `domain-modeling` when the accepted change updates terms or model docs; `writing-for-agents` for an approved agent-doc edit | `implement`, `implement-spec`, or any upstream flow that creates its own worktree, subagents, commits, or review; repository-wide setup or unrelated architecture work |
+| Coordinator | `pr` as a guide for the final PR body; `writing-for-agents` for an approved instruction-document edit; `codebase-design` or `domain-modeling` for an accepted scope decision that needs those references; separately installed `grilling` only for an explicit pre-acceptance stress test | Upstream task decomposition, automatic issue-tracker changes, or any skill that replaces Paperclip's approval, assignment, review, or PR workflow |
+| Code Reviewer | Keep the native Paperclip review flow and the role's exact base/head SHA checks; use `codebase-design` or `writing-for-agents` only as read-only references when the diff triggers them | Upstream `code-review`, `tdd`, `diagnosing-bugs`, `domain-modeling`, `research`, `prototype`, `wizard`, `grilling`, and `pr`; edits, commits, or PR creation |
 
 Use other upstream skills only after the Coordinator confirms that their side effects fit the accepted scope. In particular:
 
 - `setup-matt-pocock-skills` writes repository guidance and asks for tracker/domain configuration. It is a user-approved, one-time bootstrap, not an automatic Paperclip startup step.
 - `triage`, `to-spec`, and `to-tickets` depend on an issue tracker and can create or change planning material. Run them only as an explicitly approved planning action.
-- `research` and some design helpers may launch background work or suggest subagents. Do not invoke those behaviours inside this pack; keep the work inline in the assigned task or obtain explicit approval for a separately authorised delegation. Paperclip's no-extra-agent rule still applies.
+- `research` launches background work and is not part of the default attachment. Do not invoke it automatically in this pack. A separately installed copy requires an explicitly authorised delegation that reconciles Paperclip's no-extra-agent rule; otherwise report the need and keep the task inline without claiming that `research` ran.
 - `writing-for-agents` must not rewrite this instruction pack or a project's `AGENTS.md`/`CLAUDE.md` without explicit approval for that documentation change.
 
 If a requested upstream skill is unavailable, continue with the Paperclip instructions and the repository's own tools. Do not claim that a skill ran merely because it was mentioned.

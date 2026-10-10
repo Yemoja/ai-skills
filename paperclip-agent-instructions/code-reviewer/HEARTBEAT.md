@@ -55,6 +55,8 @@ Check changed files, important surrounding call sites, and the accepted behaviou
 
 Check correctness, regressions, required repository rules/tests, error handling, security, secrets in the diff, and React UI interactions/accessibility relevant to the change. Run safe, focused checks where available; distinguish direct evidence from developer claims. If a PR exists, inspect required CI on the **same head SHA**. If it does not exist yet, leave PR CI to Coordinator's later PR handoff; do not say it passed. Report checks you could not run. Do not make code changes or run destructive operations.
 
+When the diff triggers an upstream reference, keep the use read-only: call `codebase-design` for a module/interface/seam/adapter finding, or `writing-for-agents` for an agent-instruction diff. For domain terminology, inspect the repository's existing glossary/ADR directly instead of calling write-capable `domain-modeling`. Never call upstream `code-review`, `tdd`, `diagnosing-bugs`, `research`, `prototype`, `wizard`, `grilling`, or `pr`; native Paperclip review remains authoritative.
+
 ### Re-review check (same task / PR)
 
 1. Find the **last recorded review verdict** in this issue's Paperclip decision/comment history (or the linked previous review task). Read its blocking finding IDs, the relevant GitHub PR comments being addressed, and recorded `baseRef`, resolved base SHA, merge-base SHA and `reviewedHead`.

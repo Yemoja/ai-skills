@@ -23,10 +23,22 @@ Repository instructions govern how this application is developed. This bundle go
 - Reuse the one delivery task. Keep your working steps as a short checklist. Do not create tasks, recruit agents, invoke extra subagents, or start follow-up work without user approval through Coordinator.
 - Choose ordinary implementation details yourself. Necessary component edits and proportionate tests are part of delivery; a wider redesign or opportunistic cleanup is not.
 - Use the task's designated branch/workspace. Confirm its actual repository remote and base ref before editing. Preserve unrelated changes. Do not reset, discard, rebase, switch, or overwrite another person's work to make your task easier. If the worktree is shared or dirty, isolate the relevant edits rather than staging someone else's files.
+- Do not automatically call user-only flows such as `/implement`, `/implement-spec`, `/grill-with-docs`, `/to-spec`, `/to-tickets`, or `/wayfinder`; route a request for those workflows to Coordinator. Do not invoke upstream `code-review`, which would create a separate parallel review process.
 
 ## Work with this React application
 
 Read `package.json`, the lockfile, relevant configuration, and nearby components before selecting commands or patterns. Use the repository's package manager, React version, styling system, component library, state management, and test tools. React does not imply Next.js, Tailwind, a particular router, or a server-rendered application.
+
+### Choose the implementation discipline at the trigger
+
+Use the exact Skill-tool names in `../MATT_POCOCK_SKILLS.md`. A call is a reference inside this assigned task; it does not create a task, subagent, worktree, commit, review stage, or PR.
+
+- When the request reports broken, throwing, failing, flaky, intermittent, slow, or hard-to-reproduce behaviour, call the Skill tool with `diagnosing-bugs` **before** theorising or editing. Build a tight reproducing loop, redact secrets, and carry a regression test or a documented absence of a test seam into handoff. Skip this only when an ordinary TDD red test already has a known cause.
+- When implementing new behaviour, fixing a regression, or writing an integration test at an accepted seam, call the Skill tool with `tdd` before writing production code. Treat the accepted plan's test seam as the confirmation required by that skill, and use one red → green vertical slice at a time. Hand off for the native Paperclip review stage; do not call upstream `code-review`.
+- When a module interface, adapter, seam, or testability shape is in question, call the Skill tool with `codebase-design` before deciding. Use it as design vocabulary and reference; do not follow an optional parallel-agent or repository-wide redesign path without explicit approval.
+- When the accepted change alters domain terminology or boundaries, or includes `GLOSSARY.md` or an ADR, call the Skill tool with `domain-modeling`. Write only the approved documentation changes; reading existing terminology alone does not trigger the skill.
+- When the approved deliverable edits the project's `AGENTS.md`, `CLAUDE.md`, a skill, or another agent-facing instruction file, call the Skill tool with `writing-for-agents` before drafting it. Do not invoke it for ordinary source-code edits.
+- Call `prototype` or `wizard` only if separately installed and the Coordinator has explicitly approved the required throwaway artifact or human-only provisioning step. They are not part of the default six-skill attachment.
 
 Prefer existing components and design tokens. Preserve responsive layouts, keyboard access, focus behaviour, labels, and relevant loading/error/empty states. Test the user-visible behaviour affected by the change. Do not turn a small adjustment into a whole-application accessibility or design audit.
 
@@ -40,7 +52,7 @@ Use the repository's documented checks. Run focused tests during development and
 
 For visible changes, exercise the affected page in an available browser and inspect the relevant screen sizes and interactions. Use the application's documented test-account/login flow before treating an expected login screen as a blocker. Capture a focused before/after screenshot or other useful evidence when feasible and permitted; avoid sensitive data in screenshots. A build passing is not a visual check. If browser access, valid credentials, or another required check is unavailable, report the gap accurately and ask Coordinator only for what is needed.
 
-Record the command, result, and tested revision. If practical, establish the focused test baseline before changing code. Separate existing failures from failures introduced by your change. Never fabricate test runs, screenshots, review approval, or a successful deployment. Do not weaken tests, type checking, lint rules, pre-commit hooks, signature requirements, or security controls to obtain a pass. Do not bypass required checks with `--no-verify` or similar workarounds.
+Record the command, result, and tested revision. If `diagnosing-bugs` or `tdd` was called, also record the reproducing loop or red → green slice, the approved seam, and the regression evidence. If practical, establish the focused test baseline before changing code. Separate existing failures from failures introduced by your change. Never fabricate test runs, screenshots, review approval, or a successful deployment. Do not weaken tests, type checking, lint rules, pre-commit hooks, signature requirements, or security controls to obtain a pass. Do not bypass required checks with `--no-verify` or similar workarounds.
 
 ## Hand off once, then fix valid findings
 

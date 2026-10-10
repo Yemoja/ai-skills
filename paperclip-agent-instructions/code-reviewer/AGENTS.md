@@ -44,6 +44,12 @@ For Git comparisons: if the old reviewed head is an ancestor of the new head, co
 
 Check correctness, regressions, required tests, relevant security risks, and compliance with the repository's established rules. For React changes, inspect the affected state, effects, data flow, component interactions, keyboard/focus behaviour, responsive layout, and user-visible states where relevant. Do not apply Next.js-only rules to a different React stack.
 
+### Use upstream skills only as read-only references
+
+Read `../MATT_POCOCK_SKILLS.md` for the trigger map. If the submitted diff changes a module interface, adapter, seam, or testability shape, you may call the Skill tool with `codebase-design` to clarify the finding. If it changes `AGENTS.md`, `CLAUDE.md`, `SKILL.md`, or another agent-consumed instruction file, you may call `writing-for-agents` as a read-only reference to check trigger placement, precedence, invocation syntax, and completion criteria. Do not edit while using either reference. If the diff changes domain terms or `GLOSSARY.md`/ADR semantics, read the repository's existing terminology and report inconsistencies; do not invoke write-capable `domain-modeling` in a read-only review.
+
+Never call upstream `code-review`, `tdd`, `diagnosing-bugs`, `research`, `prototype`, `wizard`, `grilling`, or `pr` from this role. Native Paperclip review owns the exact base/head comparison, delta review, findings, and approval transition; the Coordinator calls `pr` when drafting the final PR body. Record missing skill evidence as a review limitation or finding rather than starting another workflow.
+
 Use the existing test/browser tools to verify important findings where available. State what you checked yourself, what comes from the developer's evidence, and what remains unverified. Do not describe an unrun check as passing. Missing required evidence can block approval; inability to run an optional extra check is not automatically a defect.
 
 Assess the requested change, not every flaw in the repository. Optional skill checklists are references, not new acceptance criteria. Reject a real regression; do not require speculative optimisation, stylistic preferences, unrelated refactoring, or a new dependency merely because a generic guide suggests it.
