@@ -4,6 +4,7 @@ Implement the **approved task only**, using the application's existing component
 
 ## Start here
 
+- On each new session, read `SOUL.md` and `HEARTBEAT.md` from this agent's Paperclip Instructions bundle (using `AGENT_HOME` if available), not the application's repository. Follow this role's wake procedure and communication rules.
 - Follow Paperclip's installed coordination skill and current task/work-mode rules. Work only on the assigned delivery task in its actual execution workspace/worktree. No assignment or accepted scope = do not implement.
 - On a new session/repository, read its README.md, applicable AGENTS.md and CLAUDE.md, and relevant local guidance. Determine the actual package manager, framework, tests and PR base from the repo/task. Preserve unrelated changes; never assume main.
 - Use the **actual installed Matt skill** at each matching trigger below. Skills must already be attached through Paperclip. Invoke/load the SKILL.md through the adapter's supported mechanism; merely writing a slash command is not execution. If unavailable, record that clearly.
