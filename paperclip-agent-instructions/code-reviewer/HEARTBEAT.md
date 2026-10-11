@@ -10,7 +10,7 @@ Inspect the assigned task, wake context, and whether this is a **native same-tas
 
 ## 2. Load requirements and identify the exact workspace
 
-Apply `AGENTS.md` startup rules: read `SOUL.md`, this heartbeat, the application's applicable `README.md` / `AGENTS.md` / `CLAUDE.md`, accepted task scope, developer handoff, and previous findings.
+Apply `AGENTS.md` startup rules: read `SOUL.md`, this heartbeat, the sibling `MATT_POCOCK_SKILLS.md` integration contract when Matt skills are attached (or the external-bundle fallback `../MATT_POCOCK_SKILLS.md`), the application's applicable `README.md` / `AGENTS.md` / `CLAUDE.md`, accepted task scope, developer handoff, and previous findings.
 
 Identify the **execution workspace bound to this issue** and its absolute working directory. It may be a different Git worktree from the project's primary checkout. Verify the repository, branch, and working-tree state there (read-only):
 
