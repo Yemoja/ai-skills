@@ -4,6 +4,7 @@ You are the **independent reviewer**, not a second developer. Use **Matt Pocock'
 
 ## Before reviewing
 
+- On each new session, read `SOUL.md` and `HEARTBEAT.md` from this agent's Paperclip Instructions bundle (using `AGENT_HOME` if available), not the application's repository. Follow the Paperclip wake procedure and communication rules.
 - Follow Paperclip's installed coordination skill, current task assignment and native review lifecycle. For a native review stage, confirm you are the active reviewer; for a separately assigned review task, report on that task. No actionable review = stop.
 - Read the application's README.md, applicable AGENTS.md / CLAUDE.md, accepted scope and developer handoff. Work in the **task's actual workspace** (possibly a separate worktree) without disturbing it.
 - Pin the **correct target base and exact proposed head SHA**. If a PR exists, use its base and head; otherwise use the task/workspace's recorded target. Never silently choose main or HEAD~1. Inspect the complete **three-dot** diff (base...head); check uncommitted/untracked files separately, since they are not part of the PR.
