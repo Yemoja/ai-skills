@@ -2,6 +2,8 @@
 
 This instruction pack uses [Matt Pocock's skills](https://github.com/mattpocock/skills) as an optional, upstream-maintained set of engineering practices. Keep the upstream source managed and separate from this repository. Do **not** copy its `SKILL.md` files into this pack or install both the managed plugin and a `skills.sh` copy: that creates duplicate skills and makes updates ambiguous.
 
+`MATT_POCOCK_SKILLS.md` itself is **not** an upstream Matt skill and is not imported through Paperclip's Skills Store. It is the Paperclip-specific routing contract shipped with this instruction pack. In Paperclip's normal managed mode, place a copy of this file as a sibling of `AGENTS.md` in each agent's own Instructions bundle. The role files read it as `MATT_POCOCK_SKILLS.md`. If an external bundle deliberately preserves this repository's three-role directory layout, the role files also support the shared-parent fallback `../MATT_POCOCK_SKILLS.md`.
+
 ## Preferred Paperclip setup
 
 Use Paperclip's **Skills → Sources → Import from GitHub** flow to import the upstream repository once into the company skill library. The direct GitHub source is intentional here because this pack is documenting the exact upstream repository the user selected:
@@ -22,6 +24,8 @@ npx paperclipai skills agent sync <agent-id-or-shortname> \
 ```
 
 Attach imported skills selectively. The Coordinator uses `grilling`, `research`, `codebase-design`, `domain-modeling`, `wizard`, `writing-for-agents`, and `pr` at their documented triggers. The Senior UI Developer uses `tdd`, `diagnosing-bugs`, `research`, `prototype`, `codebase-design`, `domain-modeling`, and `writing-for-agents`. The Code Reviewer uses `code-review` for the bounded two-axis analysis, with `codebase-design` and `writing-for-agents` as read-only references when their diff triggers fire. Do not attach user-only flows such as `implement`, `implement-spec`, `grill-with-docs`, `to-spec`, or `to-tickets` for model invocation, and do not attach every imported skill to every agent.
+
+For review quality, Matt's `code-review` skill is the analysis engine in this pack. Paperclip remains the control plane: its native reviewer stage supplies the task, exact base/head comparison, persisted verdict, and approve/request-changes transition. The restriction against invoking `code-review` from Senior or Coordinator prevents duplicate reviews; it is not a preference for Paperclip's built-in review analysis over Matt's.
 
 Use **Skills → Sources → Refresh** when you want to review a newer upstream revision. Select newly discovered packages and save that selection deliberately, inspect changed skill content, and re-sync only the skills that remain compatible. Do not hard-code generated Paperclip skill IDs in this repository; they depend on the imported source revision.
 
@@ -68,7 +72,7 @@ The role files contain the operative routing. Each row below explains what shoul
 
 | Skill-tool name | Trigger and owning stage | Required evidence | Paperclip guard |
 | --- | --- | --- | --- |
-| `tdd` | Senior: new behaviour, a regression fix, an integration test, or an explicit test-first/red-green request at an accepted test seam | One red → green vertical slice, the seam used, focused test command/result, and tested `HEAD` SHA | Treat the accepted plan's seam as confirmation. Do not call upstream `implement` or `code-review`; native Code Reviewer owns review. |
+| `tdd` | Senior: new behaviour, a regression fix, an integration test, or an explicit test-first/red-green request at an accepted test seam | One red → green vertical slice, the seam used, focused test command/result, and tested `HEAD` SHA | Treat the accepted plan's seam as confirmation. Do not call `code-review` from Senior; the Code Reviewer invokes Matt's `code-review` skill during the native review stage. Do not duplicate that review. |
 | `diagnosing-bugs` | Senior: the task reports broken, throwing, failing, flaky, intermittent, slow, or hard-to-reproduce behaviour | Minimal reproducing loop, observed failure, redaction of secrets, hypothesis/instrumentation, and a regression test or documented absence of a seam | Call before editing or theorising. Skip only when an ordinary TDD red test already has a known cause. |
 | `codebase-design` | Coordinator during a material module/interface decision; Senior before choosing a module interface, seam, adapter, or testability shape; Reviewer only as a read-only reference for a finding | The selected module/interface/seam and why it preserves accepted scope; pass that decision to Senior and Reviewer; no unrelated redesign | Do not follow optional parallel-subagent or redesign paths from the upstream skill without explicit approval. Reuse the recorded decision unless the shape changes. |
 | `domain-modeling` | Coordinator only when the accepted scope includes resolving or documenting domain terminology; Senior when the accepted change alters domain terms, `GLOSSARY.md`, or an ADR | Terms resolved and any approved glossary/ADR update; pass the result to downstream roles; ordinary code work remains in scope | Reading a glossary is not an invocation. Reviewer does not invoke this write-capable skill in a read-only review. Reuse the recorded model unless implementation exposes a new decision. |
